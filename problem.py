@@ -7,8 +7,8 @@ class A:
         self.value = Objective_Function(state) 
 
 class problem:
-    def __init__(self):
-        self.current_state = randomize_initial_state()
+    def __init__(self, random_state):
+        self.current_state = randomize_initial_state(random_state)
 
     def action(self, coor1, coor2):
         next_state = self.current_state

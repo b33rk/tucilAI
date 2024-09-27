@@ -55,9 +55,16 @@ def Objective_Function(state, n=5):
 
     return fulfilled_properties
 
-def randomize_initial_state(n=5):
+def randomize_initial_state(n=5, random_state=0):
+    rng = np.random.default_rng(random_state)
+    
+    # Generate array of numbers from 1 to n^3
     numbers = np.arange(1, n**3 + 1)
-    np.random.shuffle(numbers)
+    
+    # Shuffle the numbers using the RNG
+    rng.shuffle(numbers)
+    
+    # Reshape the shuffled numbers into an n x n x n array
     state = numbers.reshape((n, n, n))
     
     return state
