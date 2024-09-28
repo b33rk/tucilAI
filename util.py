@@ -4,19 +4,19 @@ def Objective_Function(state, n=5):
     magic_number = (n * (n**3 + 1)) // 2
     fulfilled_properties = 0
     
-    # baris
+    # kolom
     for i in range(n):
         for k in range(n):
             if np.sum(state[i, :, k]) == magic_number:
                 fulfilled_properties += 1
     # print("Baris", fulfilled_properties)
-    # kolom
+    # tiang
     for j in range(n):
         for k in range(n):
             if np.sum(state[:, j, k]) == magic_number:
                 fulfilled_properties += 1
     # print("kolom", fulfilled_properties)
-    # tiang
+    # baris
     for i in range(n):
         for j in range(n):
             if np.sum(state[i, j, :]) == magic_number:

@@ -233,7 +233,8 @@ class GeneticAlgo:
                 new_population.append(child2)
             
             population = new_population
-
+            if (generation % 100 == 0):
+                print("Generation", generation)
+                print("Max fitness:", max(fitnesses))
         fitnesses = [Objective_Function(ind) for ind in population]
-        print(max(fitnesses))
         return population[np.argmax(fitnesses)]
