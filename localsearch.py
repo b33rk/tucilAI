@@ -11,25 +11,29 @@ def steepestHillCLimb(problem):
     current  = A(problem.current_state)
     while True:
         neighbor = problem.get_neighbor()
-        print(neighbor.value, current.value)
         if neighbor.value <= current.value:
+            print(current.value)
             return current.state
         current = neighbor
 
 def HillCLimbSideways(problem):
     current  = A(problem.current_state)
+    i = 0
     while True:
+        i += 1
         neighbor = problem.get_neighbor()
-        print(neighbor.value, current.value)
         if neighbor.value < current.value:
             return current.state
         current = neighbor
+        if i % 10 == 0:
+            print("iterasi ", i)
+            print("value ", current.value)
 
 def RandomRestratHillClimb():
     random_state = 0
     p = problem(random_state)
     current  = A(p.current_state)
-    while current.value < 10:
+    while current.value < 109:
         p = problem(random_state)
         random_state += 1
         current  = A(p.current_state)
@@ -46,9 +50,11 @@ def StochasticHillCLimb(problem, iter):
     current  = A(problem.current_state)
     for i in range(iter):
         neighbor = problem.get_neighbor_random()
-        print(neighbor.value, current.value)
         if neighbor.value > current.value:
             current = neighbor
+        if i % 100 == 0:
+            print("iteration", i)
+            print("value:", current.value)
     return current.state
 
 def SimuatedAnnealing(problem, schedule, static=True, thresh=0.5):
@@ -73,9 +79,12 @@ def SimuatedAnnealing(problem, schedule, static=True, thresh=0.5):
             if choose_next(dE, T, thresh):
                 current = next_node
         t += 1
+        if t % 100 == 0:
+            print("iterasi ", t)
+            print("value ", current.value)
 
 class SA_Scheduler:
-    def __init__(self, tipe="linear", T0 = 100, alpha=0.99, beta = 0.1, k = 1):
+    def __init__(self, tipe="default", T0 = 100, alpha=0.99, beta = 0.1, k = 1):
         self.tipe = tipe
         self.T0 = T0
         self.alpha = alpha
@@ -89,6 +98,8 @@ class SA_Scheduler:
             return self.T0 * (self.alpha ** t)
         elif self.tipe == "log":
             return self.T0 / (1 + self.beta * np.log(1 + t))
+        else:
+            return self.T0 * self.alpha
         
 class GeneticAlgo:
     def __init__(self, pop_size = 100, n=5, generations=1000, mutation_rate=0.1, crossover="ox"):
@@ -212,7 +223,7 @@ class GeneticAlgo:
         for generation in range(self.generations):
             fitnesses = [Objective_Function(ind) for ind in population]
 
-            if max(fitnesses) == 105:
+            if max(fitnesses) == 109:
                 print(f"Solution found at generation {generation}")
                 return population[np.argmax(fitnesses)]
             

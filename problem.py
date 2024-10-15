@@ -14,31 +14,44 @@ class problem:
         self.all_pairs = [(coor1, coor2) for coor1, coor2 in itertools.combinations(coordinates, 2)]
 
     def action(self, coor1, coor2):
-        next_state = self.current_state
-        # print(coor1, coor2)
-        next_state[coor1], next_state[coor2] = next_state[coor2], next_state[coor1]
+        next_state = self.current_state.copy()
+        temp = next_state[coor1]
+        next_state[coor1] = next_state[coor2]
+        next_state[coor2] = temp
         return next_state
 
     def get_neighbor(self):
-        max_val = 0
-        random.shuffle(self.all_pairs)
-        for pair in self.all_pairs:
-            next_state = self.action(pair[0], pair[1])
-            value = Objective_Function(next_state)
-            if (value > max_val):
-                max_val = value
-                neighbor = next_state
-        print(pair[0])
-        print(pair[1])
+        state_values = [(self.action(pair[0], pair[1]), Objective_Function(self.action(pair[0], pair[1]))) for pair in self.all_pairs]
+        state_values = [(self.action(pair[0], pair[1]), Objective_Function(self.action(pair[0], pair[1]))) for pair in self.all_pairs]
+        print(sorted([x[1] for x in state_values], reverse=True)[:10])
+        sorted_states = sorted(state_values, key=lambda x: x[1], reverse=True)
+
+        max_val = sorted_states[0][1]
+
+        max_states = [state[0] for state in sorted_states if state[1] == max_val]
+
+        neighbor = random.choice(max_states)
+
         self.current_state = neighbor
+        
         return A(neighbor)
 
     def get_neighbor_random(self):
-        random.shuffle(self.all_pairs)
-        next_state = self.action(self.all_pairs[0], self.all_pairs[1])
+        # pair1 = [random.randint(0, 4) for _ in range(3)]
+        # pair2 = [random.randint(0, 4) for _ in range(3)]
+        # random.shuffle(self.all_pairs)
+        index = random.randint(0, len(self.all_pairs) - 1)
+        next_state = self.action(self.all_pairs[index][0], self.all_pairs[index][1])
+        # next_state = self.action(pair1, pair2)
         self.current_state = next_state
         return A(next_state)
-
+    
+    def analyze_proba(self):
+        state_values = [(self.action(pair[0], pair[1]), Objective_Function(self.action(pair[0], pair[1]))) for pair in self.all_pairs]
+        values = [x[1] for x in state_values]
+        cur_val = Objective_Function(self.current_state)
+        print("val:",cur_val)
+        analyze_successors(cur_val, values)
 
 state = randomize_initial_state()
 perfect_magic_cube_3x3 = np.array([

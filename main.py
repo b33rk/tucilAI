@@ -3,13 +3,18 @@ from problem import *
 from util import *
 import time
 
-p = problem()
-scheduler = SA_Scheduler(tipe="eksponen")
+p = problem(random_state=0)
+scheduler = SA_Scheduler(alpha=0.9999)
 
 start_time = time.time()
 
-SimuatedAnnealing(p, scheduler)
-# gen = GeneticAlgo(generations=1000)
+StochasticHillCLimb(p, 1000000)
+p.analyze_proba()
+# HillCLimbSideways(p)
+# steepestHillCLimb(p)
+# SimuatedAnnealing(p,scheduler)
+# RandomRestratHillClimb()
+# gen = GeneticAlgo(generations=10000, crossover="cx")
 # gen.genetic_algo()
 
 end_time = time.time()

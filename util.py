@@ -68,3 +68,11 @@ def randomize_initial_state(n=5, random_state=0):
     state = numbers.reshape((n, n, n))
     
     return state
+
+def analyze_successors(current_val, successors):
+    print("worse:", len([x for x in successors if x < current_val]))
+    print("same:", len([x for x in successors if x == current_val]))
+    print("better:", len([x for x in successors if x > current_val]))
+
+def diff(cube1, cube2):
+    return cube1 != cube2
