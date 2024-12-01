@@ -23,7 +23,6 @@ class problem:
     def get_neighbor(self):
         state_values = [(self.action(pair[0], pair[1]), Objective_Function(self.action(pair[0], pair[1]))) for pair in self.all_pairs]
         state_values = [(self.action(pair[0], pair[1]), Objective_Function(self.action(pair[0], pair[1]))) for pair in self.all_pairs]
-        print(sorted([x[1] for x in state_values], reverse=True)[:10])
         sorted_states = sorted(state_values, key=lambda x: x[1], reverse=True)
 
         max_val = sorted_states[0][1]
